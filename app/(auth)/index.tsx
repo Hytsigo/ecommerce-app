@@ -6,10 +6,11 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomButton from "@/components/Custombutton";
 import { router } from "expo-router";
+import CustomButton from "@/components/Custombutton";
+import { GlobalStyles, Colors } from "./../../constants/globalStyles";
 
-export default function Login({ navigation }: any) {
+export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
@@ -22,7 +23,7 @@ export default function Login({ navigation }: any) {
                 password
             );
             await AsyncStorage.setItem("userToken", authUser.user.uid);
-            router.push("/(tabs)");
+            router.replace("/(tabs)");
         } catch (error: any) {
             setError(error.message);
         }
@@ -36,52 +37,86 @@ export default function Login({ navigation }: any) {
                 password
             );
             await AsyncStorage.setItem("userToken", authUser.user.uid);
-            router.push("/(tabs)");
+            router.replace("/(tabs)");
         } catch (error: any) {
-            setError(error.mesage);
+            setError(error.message);
         }
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.title}>Welcome back to Mega Mall</Text>
-                {error && <Text style={styles.errorText}>{error}</Text>}
+        <SafeAreaView style={GlobalStyles.container}>
+            <Text style={GlobalStyles.title}>Welcome back to Mega Mall</Text>
+            {error && <Text style={styles.errorText}>{error}</Text>}
+
+            <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter your email"
+                    placeholder="Email"
+                    placeholderTextColor={Colors.secondaryHalfGrey}
                     onChangeText={setEmail}
                     value={email}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
+                    placeholderTextColor={Colors.secondaryHalfGrey}
                     onChangeText={setPassword}
                     value={password}
                     secureTextEntry
                 />
+            </View>
+
+            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+
+            <View style={styles.buttonContainer}>
                 <CustomButton
                     text="Instant"
-                    onPress={() => router.push("/(tabs)")}
+                    onPress={() => router.replace("/(tabs)")}
+                    color={"gray"}
                 />
-                <CustomButton text="Sign In" onPress={signIn} />
-                <CustomButton text="Sign Up" onPress={signUp} />
+                <CustomButton
+                    text="Sign In"
+                    onPress={signIn}
+                    color={"oceanBlue"}
+                />
+                <CustomButton text="Sign Up" onPress={signUp} color={"gray"} />
             </View>
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: "center", alignItems: "center" },
-    content: { width: 325, marginTop: 150, gap: 32, textAlign: "left" },
-    title: { fontWeight: "700", fontSize: 25, lineHeight: 33 },
-    input: {
-        marginVertical: 10,
-        height: 50,
+    inputContainer: {
+        width: "90%",
+        maxWidth: 480,
         paddingHorizontal: 16,
-        backgroundColor: "#ededed",
-        borderRadius: 5,
+        gap: 10,
     },
-    footerText: { marginTop: 20, color: "blue" },
-    errorText: { color: "red", textAlign: "center" },
+    input: {
+        height: 56,
+        paddingHorizontal: 16,
+        backgroundColor: Colors.secondarySoftGrey,
+        borderColor: Colors.secondaryOffGrey,
+        borderWidth: 1,
+        borderRadius: 12,
+        color: Colors.primaryNavyBlack,
+    },
+    forgotPasswordText: {
+        color: Colors.primaryBlueOcean,
+        fontSize: 14,
+        marginTop: 10,
+        textDecorationLine: "underline",
+        alignSelf: "center",
+    },
+    buttonContainer: {
+        width: "90%",
+        maxWidth: 480,
+        marginTop: 20,
+        gap: 10,
+    },
+    errorText: {
+        color: "red",
+        textAlign: "center",
+        marginBottom: 10,
+    },
 });

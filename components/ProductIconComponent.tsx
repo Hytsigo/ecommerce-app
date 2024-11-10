@@ -1,35 +1,28 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "../constants/globalStyles";
+import { Welcome } from "@/interfaces/productInterfaces";
 
-interface ProductProps {
-    Icon: React.FC;
-    title: string;
-    price: number;
-    rating: number;
-    reviews: number;
-}
-
-const ProductIconComponent: React.FC<ProductProps> = ({
-    Icon,
+const ProductIconComponent: React.FC<Welcome> = ({
     title,
     price,
     rating,
-    reviews,
+    category,
+    image,
 }) => {
     return (
         <View style={styles.productContainer}>
-            <Icon />
+            <Image source={{ uri: image }} style={styles.productImage} />
             <Text style={styles.title}>{title}</Text>
+            <Text style={styles.category}>{category}</Text>
             <Text style={styles.price}>
                 COL: ${price.toLocaleString("es-CO")}
             </Text>
             <View style={styles.ratingContainer}>
-                <View style={styles.rating}>
-                    <Ionicons name="star" color="gold" size={16} />
-                    <Text>{rating}</Text>
-                </View>
-                <Text>{reviews} Reviews</Text>
+                <Ionicons name="star" color="gold" size={16} />
+                <Text style={styles.ratingText}>{rating.rate}</Text>
+                <Text style={styles.reviewsText}>({rating.count} Reviews)</Text>
             </View>
         </View>
     );
@@ -39,37 +32,56 @@ export default ProductIconComponent;
 
 const styles = StyleSheet.create({
     productContainer: {
-        width: 156,
-        height: 242,
-        margin: 10,
-        paddingVertical: 15,
+        width: 160,
+        padding: 12,
+        margin: 8,
         alignItems: "center",
-        gap: 5,
-        backgroundColor: "#fff",
-        borderRadius: 10,
+        backgroundColor: Colors.secondarySoftGrey,
+        borderRadius: 12,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 3.84,
+        elevation: 3,
+    },
+    productImage: {
+        width: 120,
+        height: 120,
+        borderRadius: 8,
+        marginBottom: 8,
     },
     title: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "bold",
         textAlign: "center",
+        color: Colors.primaryNavyBlack,
+        marginBottom: 4,
+    },
+    category: {
+        fontSize: 12,
+        color: Colors.secondaryHalfGrey,
+        marginBottom: 6,
     },
     price: {
         fontSize: 14,
-        color: "#666",
+        fontWeight: "500",
+        color: Colors.primaryBlueOcean,
+        marginBottom: 8,
     },
     ratingContainer: {
         flexDirection: "row",
-        gap: 8,
         alignItems: "center",
+        marginTop: 4,
     },
-    rating: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 5,
+    ratingText: {
+        fontSize: 14,
+        color: Colors.primaryNavyBlack,
+        fontWeight: "600",
+        marginLeft: 4,
+    },
+    reviewsText: {
+        fontSize: 12,
+        color: Colors.secondaryHalfGrey,
+        marginLeft: 4,
     },
 });

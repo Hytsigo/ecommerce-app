@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, ViewStyle, TextStyle } from "react-native";
 import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import { SvgProps } from "react-native-svg";
+import { Colors } from "../constants/globalStyles";
 
 interface CategoryIconComponentProps {
     Icon: React.FC<SvgProps>;
@@ -40,6 +41,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 14,
-        color: "#000",
+        color: Colors.secondaryHalfGrey,
     },
 });

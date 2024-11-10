@@ -1,85 +1,74 @@
-import React from "react";
-import { StyleSheet, View, FlatList, Dimensions } from "react-native";
+import { getProducts } from "@/api/getProducts.service";
+import { Welcome } from "@/interfaces/productInterfaces";
+import { Link } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+    Dimensions,
+    FlatList,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+} from "react-native";
+import { Colors } from "../constants/globalStyles";
 import ProductIconComponent from "./ProductIconComponent";
-import HeadphonesSvg from "@/assets/svg/HeadphonesSvg";
-import SvgCable from "@/assets/svg/SvgCable";
 
-interface allProducts {
+interface AllProductsProps {
     isExpanded: boolean;
 }
-// Definimos la interfaz para los productos
-interface Product {
-    id: string;
-    Icon: React.FC<React.SVGProps<SVGSVGElement>>;
-    price: number;
-    rating: number;
-    reviews: number;
-    title: string;
-}
 
-// Definimos el array de productos con sus respectivas propiedades
-const data: Product[] = [
-    {
-        id: "1",
-        Icon: HeadphonesSvg,
-        price: 1500000,
-        rating: 4.6,
-        reviews: 90,
-        title: "TMA-2 HD Wireless",
-    },
-    {
-        id: "2",
-        Icon: SvgCable,
-        price: 1900000,
-        rating: 3.6,
-        reviews: 180,
-        title: "TMA-1 HD Cable",
-    },
-    {
-        id: "3",
-        Icon: HeadphonesSvg,
-        price: 1500000,
-        rating: 4.6,
-        reviews: 90,
-        title: "TMA-2 HD Wireless",
-    },
-    {
-        id: "4",
-        Icon: HeadphonesSvg,
-        price: 1500000,
-        rating: 4.6,
-        reviews: 90,
-        title: "TMA-2 HD Wireless",
-    },
-];
-
-// Número de columnas basado en el tamaño de la pantalla
 const numColumns = 2;
 const screenWidth = Dimensions.get("window").width;
-const itemWidth = screenWidth / numColumns - 20; // Ajusta el espaciado
+const itemWidth = screenWidth / numColumns - 20;
 
-const AllProductsComponent: React.FC<allProducts> = ({ isExpanded }) => {
-    // Renderizado de cada elemento
-    const renderItem = ({ item }: { item: Product }) => (
-        <View style={[styles.productContainer, { width: itemWidth }]}>
-            <ProductIconComponent
-                Icon={item.Icon}
-                price={item.price}
-                rating={item.rating}
-                reviews={item.reviews}
-                title={item.title}
-            />
-        </View>
+const AllProductsComponent: React.FC<AllProductsProps> = ({ isExpanded }) => {
+    const [products, setProducts] = useState<Welcome[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const data = await getProducts();
+            setProducts(data);
+            setLoading(false);
+        };
+
+        fetchProducts();
+    }, []);
+
+    const renderItem = ({ item }: { item: Welcome }) => (
+        <Link
+            href={{
+                pathname: `/detail/[id]`,
+                params: { id: item.id },
+            }}
+            asChild
+        >
+            <TouchableOpacity
+                style={[styles.productContainer, { width: itemWidth }]}
+            >
+                <ProductIconComponent
+                    price={item.price}
+                    rating={item.rating}
+                    title={item.title}
+                    category={item.category}
+                    description={item.description}
+                    id={item.id}
+                    image={item.image}
+                />
+            </TouchableOpacity>
+        </Link>
     );
 
     return (
         <FlatList
-            data={isExpanded ? data : data.slice(0, 2)}
+            data={isExpanded ? products : products.slice(0, 2)}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             numColumns={numColumns}
             contentContainerStyle={styles.flatListContainer}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={
+                !loading ? <Text>No products found</Text> : null
+            }
         />
     );
 };
@@ -93,12 +82,12 @@ const styles = StyleSheet.create({
     },
     productContainer: {
         margin: 10,
-        backgroundColor: "#fff",
+        backgroundColor: Colors.secondaryOffGrey,
         borderRadius: 10,
         paddingVertical: 15,
         alignItems: "center",
         gap: 5,
-        shadowColor: "#000",
+        shadowColor: Colors.primaryNavyBlack,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.2,
         shadowRadius: 1.41,

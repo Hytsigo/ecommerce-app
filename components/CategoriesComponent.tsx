@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AllCategories from "./AllCategories";
+import { Colors } from "../constants/globalStyles";
 
 const CategoriesComponent: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -34,13 +35,13 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     categoryTitle: {
-        color: "#0c1a30",
+        color: Colors.primaryNavyBlack,
         fontWeight: "500",
         fontSize: 16,
         lineHeight: 25,
     },
     seeAllText: {
-        color: "#3669C9",
+        color: Colors.primaryBlueOcean,
         fontWeight: "500",
         fontSize: 12,
         lineHeight: 22,

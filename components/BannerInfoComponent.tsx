@@ -1,6 +1,5 @@
-import { Image, StyleSheet, Text, View, ImageStyle } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Image, ImageStyle, StyleSheet, Text, View } from "react-native";
 
 interface TestBannerComponentProps {
     title: string;

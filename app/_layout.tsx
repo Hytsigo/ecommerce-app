@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Stack, usePathname, useRouter } from "expo-router";
-import { useColorScheme } from "react-native";
-import {
-    ThemeProvider,
-    DarkTheme,
-    DefaultTheme,
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import TabBarComponent from "@/components/TabBarComponent";
+import React from "react";
+import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
@@ -19,6 +14,13 @@ export default function RootLayout() {
             <Stack>
                 <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="detail/[id]"
+                    options={{
+                        title: "Detail Product",
+                        headerBackTitleVisible: false,
+                    }}
+                />
             </Stack>
         </ThemeProvider>
     );

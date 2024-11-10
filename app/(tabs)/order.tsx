@@ -1,11 +1,11 @@
-import { View, Text } from "react-native";
-import React from "react";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/globalStyles";
+import React from "react";
+import { View } from "react-native";
 
 const order = () => {
     return (
-        <View style={{ backgroundColor: "grey" }}>
+        <View style={{ backgroundColor: Colors.secondaryOffGrey }}>
             <ThemedText>Aqui va una orden</ThemedText>
             <ThemedText>Aqui va una orden</ThemedText>
             <ThemedText>Aqui va una orden</ThemedText>

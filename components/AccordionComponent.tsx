@@ -1,19 +1,10 @@
+import { Colors } from "@/constants/globalStyles";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import AllProductsComponent from "./AllProductsComponent";
 
-interface ExpandableSectionProps {
-    title: string;
-    children: React.ReactNode; // El contenido del componente que siempre estará renderizado
-    expandedContent: React.ReactNode; // El contenido que se expandirá o colapsará
-}
-
-const ExpandableSection: React.FC<ExpandableSectionProps> = ({
-    title,
-    children,
-    expandedContent,
-}) => {
+const AccordionComponent: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
     };
@@ -21,57 +12,52 @@ const ExpandableSection: React.FC<ExpandableSectionProps> = ({
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Text style={styles.sectionTitle}>{title}</Text>
+                <Text style={styles.categoryTitle}>Best Seler</Text>
                 <TouchableOpacity onPress={toggleExpand}>
-                    <Text style={styles.toggleText}>
+                    <Text style={styles.seeAllText}>
                         {isExpanded ? "Close" : "See All"}
                     </Text>
                 </TouchableOpacity>
             </View>
-
-            {/* Este es el componente principal que siempre estará visible */}
-            <View style={styles.alwaysVisibleContent}>{children}</View>
-
-            {/* Este es el contenido que se expandirá o colapsará */}
-            {isExpanded && (
-                <View style={styles.expandedContent}>{expandedContent}</View>
-            )}
+            <AllProductsComponent isExpanded={isExpanded} />
         </View>
     );
 };
 
-export default ExpandableSection;
+export default AccordionComponent;
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 10,
-        backgroundColor: "#fff",
-        marginVertical: 10,
+        borderTopEndRadius: 10,
+        borderTopLeftRadius: 10,
+        backgroundColor: Colors.secondaryOffGrey,
         padding: 10,
+        marginVertical: 10,
+        alignSelf: "center",
+        width: "90%",
+        alignItems: "center",
     },
     headerContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 24,
         marginBottom: 16,
+        width: "100%",
         alignItems: "center",
     },
-    sectionTitle: {
-        color: "#0c1a30",
+    categoryTitle: {
+        color: Colors.primaryNavyBlack,
         fontWeight: "500",
         fontSize: 16,
+        lineHeight: 25,
+        width: "100%",
     },
-    toggleText: {
-        color: "#3669C9",
+    seeAllText: {
+        color: Colors.primaryBlueOcean,
         fontWeight: "500",
         fontSize: 12,
-    },
-    alwaysVisibleContent: {
-        paddingBottom: 10,
-        alignItems: "center",
-    },
-    expandedContent: {
-        paddingTop: 10,
-        alignItems: "center",
+        lineHeight: 22,
+        textAlign: "center",
+        width: "100%",
     },
 });

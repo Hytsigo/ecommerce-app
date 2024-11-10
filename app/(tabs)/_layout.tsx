@@ -1,10 +1,9 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import TabBarComponent from "@/components/TabBarComponent";
+import { Colors } from "@/constants/globalStyles";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
     const colorScheme = useColorScheme();
@@ -15,7 +14,6 @@ export default function TabLayout() {
 
             <Tabs
                 screenOptions={{
-                    tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
                     headerShown: false,
                 }}
             >
@@ -26,7 +24,9 @@ export default function TabLayout() {
                         tabBarIcon: ({ color, focused }) => (
                             <TabBarIcon
                                 name={focused ? "home-sharp" : "home-outline"}
-                                color={focused ? "#3669c9" : color}
+                                color={
+                                    focused ? Colors.primaryBlueOcean : color
+                                }
                             />
                         ),
                     }}
@@ -39,7 +39,9 @@ export default function TabLayout() {
                         tabBarIcon: ({ color, focused }) => (
                             <TabBarIcon
                                 name={focused ? "heart" : "heart-outline"}
-                                color={focused ? "#3669c9" : color}
+                                color={
+                                    focused ? Colors.primaryBlueOcean : color
+                                }
                             />
                         ),
                     }}
@@ -51,7 +53,9 @@ export default function TabLayout() {
                         tabBarIcon: ({ color, focused }) => (
                             <TabBarIcon
                                 name={focused ? "bag" : "bag-outline"}
-                                color={focused ? "#3669c9" : color}
+                                color={
+                                    focused ? Colors.primaryBlueOcean : color
+                                }
                             />
                         ),
                     }}
@@ -63,7 +67,9 @@ export default function TabLayout() {
                         tabBarIcon: ({ color, focused }) => (
                             <TabBarIcon
                                 name={focused ? "people" : "people-outline"}
-                                color={focused ? "#3669c9" : color}
+                                color={
+                                    focused ? Colors.primaryBlueOcean : color
+                                }
                             />
                         ),
                     }}

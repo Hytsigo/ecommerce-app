@@ -1,11 +1,10 @@
-import React, { useCallback } from "react";
-import { View, StyleSheet, StatusBar, useColorScheme } from "react-native";
 import { ThemedIcon } from "@/components/ThemedIcon";
-import { Text } from "react-native";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
+import React, { useCallback } from "react";
+import { StyleSheet, Text, useColorScheme, View } from "react-native";
 import { ThemedView } from "./ThemedView";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors } from "../constants/globalStyles";
 
 const TabBarComponent = () => {
     const colorScheme = useColorScheme();
@@ -28,7 +27,7 @@ const TabBarComponent = () => {
         <ThemedView
             onLayout={onLayoutRootView}
             style={{
-                backgroundColor: "#ffffff",
+                backgroundColor: Colors.secondaryOffGrey,
                 flexDirection: "row",
                 alignItems: "center",
                 borderBottomWidth: 0.2,
@@ -51,13 +50,13 @@ const TabBarComponent = () => {
             >
                 <ThemedIcon
                     name="notifications-outline"
-                    lightColor="#000000"
-                    darkColor="#000000"
+                    lightColor={Colors.primaryNavyBlack}
+                    darkColor={Colors.primaryNavyBlack}
                 />
                 <ThemedIcon
                     name="cart-outline"
-                    lightColor="#000000"
-                    darkColor="#000000"
+                    lightColor={Colors.primaryNavyBlack}
+                    darkColor={Colors.primaryNavyBlack}
                     style={{ marginLeft: 16 }}
                 />
             </View>
@@ -70,7 +69,7 @@ export default TabBarComponent;
 const styles = StyleSheet.create({
     textStyle: {
         textAlign: "center",
-        color: "#3669C9",
+        color: Colors.primaryBlueOcean,
         fontSize: 18,
         fontWeight: "700",
         fontStyle: "normal",

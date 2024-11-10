@@ -1,40 +1,22 @@
-import React from "react";
-import SearchComponent from "@/components/SearchComponent";
-import SvgContainer from "@/components/SvgContainer";
-import CategoriesComponent from "@/components/CategoriesComponent";
-import FeaturedProduct from "@/components/FeaturedProduct";
-import BannerArticleComponent from "@/components/BannerArticleComponent";
-import SvgCable from "@/assets/svg/SvgCable";
-import AllProductsComponent from "@/components/AllProductsComponent";
 import AccordionComponent from "@/components/AccordionComponent";
+import BannerArticleComponent from "@/components/BannerArticleComponent";
+import CategoriesComponent from "@/components/CategoriesComponent";
 import Custombutton from "@/components/Custombutton";
+import FeaturedProduct from "@/components/FeaturedProduct";
+import SvgContainer from "@/components/SvgContainer";
+import React from "react";
 
-const home = [
-    { id: "search", component: <SearchComponent /> },
+interface HomeItem {
+    id: string;
+    component: JSX.Element;
+}
+
+const home: HomeItem[] = [
     { id: "svg", component: <SvgContainer /> },
     { id: "categories", component: <CategoriesComponent /> },
     { id: "featured", component: <FeaturedProduct /> },
-    {
-        id: "banner",
-        component: (
-            <BannerArticleComponent
-                title="CO2 - Cable Multifuntion"
-                subtitle="Shop now"
-                SvgComponent={SvgCable}
-                backgroundColor="#0acf83"
-            />
-        ),
-    },
-    {
-        id: "bestSeller",
-        component: (
-            <AccordionComponent
-                title="Best Seller"
-                children={<AllProductsComponent isExpanded={false} />}
-                expandedContent={<AllProductsComponent isExpanded />}
-            />
-        ),
-    },
+    { id: "banner", component: <BannerArticleComponent /> },
+    { id: "bestSeller", component: <AccordionComponent /> },
     {
         id: "button",
         component: (

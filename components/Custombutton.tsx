@@ -9,9 +9,9 @@ interface CustomButtonProps {
 }
 
 const colors = {
-    oceanBlue: "#3669c9",
+    oceanBlue: "#4D7FFF",
     white: "#FFFFFF",
-    gray: "#C4C5C4",
+    gray: "#bdc3c9",
 };
 
 const sizes = {
@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 16,
+        fontWeight: "500",
     },
 });

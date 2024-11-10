@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/globalStyles";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AllProductsComponent from "./AllProductsComponent";
@@ -9,12 +10,7 @@ const FeaturedComponent: React.FC = () => {
     };
 
     return (
-        <View
-            style={{
-                borderTopEndRadius: 10,
-                borderTopLeftRadius: 10,
-            }}
-        >
+        <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.categoryTitle}>Featured Product</Text>
                 <TouchableOpacity onPress={toggleExpand}>
@@ -31,22 +27,37 @@ const FeaturedComponent: React.FC = () => {
 export default FeaturedComponent;
 
 const styles = StyleSheet.create({
+    container: {
+        borderTopEndRadius: 10,
+        borderTopLeftRadius: 10,
+        backgroundColor: Colors.secondaryOffGrey,
+        padding: 10,
+        marginVertical: 10,
+        alignSelf: "center",
+        width: "90%",
+        alignItems: "center",
+    },
     headerContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: 24,
         marginBottom: 16,
+        width: "100%",
+        alignItems: "center",
     },
     categoryTitle: {
-        color: "#0c1a30",
+        color: Colors.primaryNavyBlack,
         fontWeight: "500",
         fontSize: 16,
         lineHeight: 25,
+        width: "100%",
     },
     seeAllText: {
-        color: "#3669C9",
+        color: Colors.primaryBlueOcean,
         fontWeight: "500",
         fontSize: 12,
         lineHeight: 22,
+        textAlign: "center",
+        width: "100%",
     },
 });
