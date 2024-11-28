@@ -1,3 +1,4 @@
+import { WishlistProvider } from "@/context/WishlistContext";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -18,7 +19,14 @@ export default function RootLayout() {
                     name="detail/[id]"
                     options={{
                         title: "Detail Product",
-                        headerBackTitleVisible: false,
+                        headerBackTitle: "Home",
+                    }}
+                />
+                <Stack.Screen
+                    name="category/[id]"
+                    options={{
+                        title: "Categories",
+                        headerBackTitle: "Home",
                     }}
                 />
             </Stack>

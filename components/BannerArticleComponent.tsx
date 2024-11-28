@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/globalStyles";
 import { Welcome } from "@/interfaces/productInterfaces";
 import { getProducts } from "@/api/getProducts.service";
+import { Link } from "expo-router";
 
 const BannerArticleComponent: React.FC = ({}) => {
     const [product, setProduct] = useState<Welcome | null>(null);
@@ -23,26 +24,31 @@ const BannerArticleComponent: React.FC = ({}) => {
 
     if (!product) return null;
     return (
-        <View style={[styles.container, { backgroundColor: "#0acf83" }]}>
-            <View style={styles.row}>
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>
-                        {product.title.length > 20
-                            ? `${product.title.substring(0, 20)}...`
-                            : product.title}
-                    </Text>
-                    <View style={styles.shopNow}>
-                        <Text style={styles.subtitle}>Shop now</Text>
-                        <Ionicons
-                            name="arrow-forward"
-                            color={Colors.primaryBlueOcean}
-                            size={20}
-                        />
+        <Link href={{ pathname: "/detail/[id]", params: { id: product.id } }}>
+            <View style={[styles.container, { backgroundColor: "#0acf83" }]}>
+                <View style={styles.row}>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title}>
+                            {product.title.length > 20
+                                ? `${product.title.substring(0, 20)}...`
+                                : product.title}
+                        </Text>
+                        <View style={styles.shopNow}>
+                            <Text style={styles.subtitle}>Shop now</Text>
+                            <Ionicons
+                                name="arrow-forward"
+                                color={Colors.primaryBlueOcean}
+                                size={20}
+                            />
+                        </View>
                     </View>
+                    <Image
+                        source={{ uri: product.image }}
+                        style={styles.image}
+                    />
                 </View>
-                <Image source={{ uri: product.image }} style={styles.image} />
             </View>
-        </View>
+        </Link>
     );
 };
 
@@ -53,10 +59,8 @@ const styles = StyleSheet.create({
         width: 325,
         height: 150,
         borderRadius: 10,
-        paddingHorizontal: 24,
-        paddingVertical: 20,
         justifyContent: "center",
-        marginHorizontal: 20,
+        alignItems: "center",
     },
     row: {
         flexDirection: "row",

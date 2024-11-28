@@ -2,6 +2,7 @@ import { getProducts } from "@/api/getProducts.service";
 import CustomButton from "@/components/Custombutton";
 import { Colors } from "@/constants/globalStyles";
 import { Welcome } from "@/interfaces/productInterfaces";
+import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
@@ -28,12 +29,17 @@ const DetailProductScreen = () => {
             <Image source={{ uri: product.image }} style={styles.image} />
             <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.description}>{product.description}</Text>
-            <Text style={styles.price}>${product.price}</Text>
+            <Text style={styles.price}>
+                COL: ${product.price.toLocaleString("es-CO")}
+            </Text>
             <View style={styles.ratingContainer}>
-                <Text style={styles.rating}>Rating: {product.rating.rate}</Text>
+                <Ionicons name="star" color="gold" size={16} />
+                <Text style={styles.rating}>{product.rating.rate}</Text>
+                <Text style={styles.rating}>
+                    {product.rating.count} Reviews
+                </Text>
             </View>
             <Text style={styles.category}>Category: {product.category}</Text>
-            <Text style={styles.id}>Product ID: {product.id}</Text>
             <CustomButton
                 onPress={() => {}}
                 color="oceanBlue"
@@ -54,8 +60,8 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
     },
     image: {
-        width: 300,
-        height: 300,
+        width: 250,
+        height: 250,
         borderRadius: 10,
         marginBottom: 20,
     },
@@ -84,6 +90,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 20,
+        gap: 8,
     },
     rating: {
         fontSize: 16,

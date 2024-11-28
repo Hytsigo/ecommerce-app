@@ -1,26 +1,35 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SvgProps } from "react-native-svg";
 import { Colors } from "../constants/globalStyles";
+import { useRouter } from "expo-router";
 
 interface CategoryIconComponentProps {
     Icon: React.FC<SvgProps>;
     name: string;
     backgroundColor: string;
+    categoryId: string;
 }
 
 const CategoryIconComponent: React.FC<CategoryIconComponentProps> = ({
     Icon,
     name,
     backgroundColor,
+    categoryId,
 }) => {
+    const router = useRouter();
+
+    const handlePress = () => {
+        router.push(`/category/${categoryId}`);
+    };
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={handlePress}>
             <View style={[styles.iconWrapper, { backgroundColor }]}>
                 <Icon />
             </View>
             <Text style={styles.text}>{name}</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -28,7 +37,7 @@ export default CategoryIconComponent;
 
 const styles = StyleSheet.create({
     container: {
-        margin: 16,
+        margin: 14,
         alignItems: "center",
         gap: 8,
     },

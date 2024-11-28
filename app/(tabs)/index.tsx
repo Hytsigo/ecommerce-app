@@ -4,7 +4,13 @@ import SearchComponent from "@/components/SearchComponent";
 import { Colors } from "@/constants/globalStyles";
 import { Welcome } from "@/interfaces/productInterfaces";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import {
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    TextInput,
+    View,
+} from "react-native";
 import home from "../../components/HomeComponent";
 
 export default function HomeScreen() {
@@ -32,7 +38,7 @@ export default function HomeScreen() {
     }, [query, products]);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <SearchComponent onSearch={(value) => setQuery(value || "")} />
 
             {query?.trim() === "" ? (
@@ -43,20 +49,28 @@ export default function HomeScreen() {
                         <View style={styles.item}>{item.component}</View>
                     )}
                     showsVerticalScrollIndicator={false}
-                    numColumns={2}
+                    key="single-column"
                 />
             ) : (
                 <FlatList
                     data={filteredProducts.slice(0, 2)}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <ProductComponent product={item} />
+                        <View
+                            style={{
+                                alignItems: "center",
+                                flex: 1,
+                            }}
+                        >
+                            <ProductComponent product={item} />
+                        </View>
                     )}
                     showsVerticalScrollIndicator={false}
                     numColumns={2}
+                    key="two-columns"
                 />
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -67,5 +81,6 @@ const styles = StyleSheet.create({
     },
     item: {
         marginBottom: 25,
+        alignItems: "center",
     },
 });

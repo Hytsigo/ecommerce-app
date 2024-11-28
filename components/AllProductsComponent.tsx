@@ -8,9 +8,17 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
+    View,
 } from "react-native";
 import { Colors } from "../constants/globalStyles";
 import ProductIconComponent from "./ProductIconComponent";
+import ModalComponent from "./ModalComponent";
+
+interface ModalComponentProps {
+    isVisible: boolean;
+    onClose: () => void;
+    productTitle?: string;
+}
 
 interface AllProductsProps {
     isExpanded: boolean;
@@ -23,16 +31,34 @@ const itemWidth = screenWidth / numColumns - 20;
 const AllProductsComponent: React.FC<AllProductsProps> = ({ isExpanded }) => {
     const [products, setProducts] = useState<Welcome[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [selectedProduct, setSelectedProduct] = useState<Welcome | null>(
+        null
+    );
 
     useEffect(() => {
         const fetchProducts = async () => {
-            const data = await getProducts();
-            setProducts(data);
-            setLoading(false);
+            try {
+                const data = await getProducts();
+                setProducts(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-
         fetchProducts();
     }, []);
+
+    const handleLongPress = (item: Welcome) => {
+        setSelectedProduct(item);
+        setIsModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+        setSelectedProduct(null);
+    };
 
     const renderItem = ({ item }: { item: Welcome }) => (
         <Link
@@ -42,9 +68,7 @@ const AllProductsComponent: React.FC<AllProductsProps> = ({ isExpanded }) => {
             }}
             asChild
         >
-            <TouchableOpacity
-                style={[styles.productContainer, { width: itemWidth }]}
-            >
+            <TouchableOpacity onLongPress={() => handleLongPress(item)}>
                 <ProductIconComponent
                     price={item.price}
                     rating={item.rating}
@@ -59,38 +83,36 @@ const AllProductsComponent: React.FC<AllProductsProps> = ({ isExpanded }) => {
     );
 
     return (
-        <FlatList
-            data={isExpanded ? products : products.slice(0, 2)}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={numColumns}
-            contentContainerStyle={styles.flatListContainer}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-                !loading ? <Text>No products found</Text> : null
-            }
-        />
+        <View style={styles.container}>
+            <FlatList
+                data={isExpanded ? products : products.slice(0, 2)}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={numColumns}
+                contentContainerStyle={styles.flatListContainer}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    !loading ? <Text>No products found</Text> : null
+                }
+            />
+
+            <ModalComponent
+                isVisible={isModalVisible}
+                onClose={handleCloseModal}
+                productTitle={selectedProduct?.title}
+            />
+        </View>
     );
 };
 
 export default AllProductsComponent;
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: Colors.secondaryOffGrey,
+    },
     flatListContainer: {
         padding: 10,
         justifyContent: "center",
-    },
-    productContainer: {
-        margin: 10,
-        backgroundColor: Colors.secondaryOffGrey,
-        borderRadius: 10,
-        paddingVertical: 15,
-        alignItems: "center",
-        gap: 5,
-        shadowColor: Colors.primaryNavyBlack,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
     },
 });

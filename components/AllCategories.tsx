@@ -7,19 +7,37 @@ import EggsSvg from "@/assets/svg/EggsSvg";
 import SteakSvg from "@/assets/svg/SteakSvg";
 
 interface Category {
-    id: number;
+    id: string;
     name: string;
     Icon: any;
     backgroundColor: string;
 }
 
 const categories: Category[] = [
-    { id: 1, name: "Foods", Icon: CarrotSvg, backgroundColor: "#E4F3EA" },
-    { id: 2, name: "Gift", Icon: FruitsSvg, backgroundColor: "#FFECE8" },
-    { id: 3, name: "Fashion", Icon: EggsSvg, backgroundColor: "#FFF6E4" },
-    { id: 4, name: "Gadget", Icon: SteakSvg, backgroundColor: "#F1EDFC" },
-    { id: 5, name: "Computer", Icon: CarrotSvg, backgroundColor: "#E4F3EA" },
-    { id: 6, name: "Souvenir", Icon: FruitsSvg, backgroundColor: "#FFECE8" },
+    {
+        id: "electronics",
+        name: "Electronics",
+        Icon: CarrotSvg,
+        backgroundColor: "#E4F3EA",
+    },
+    {
+        id: "jewelery",
+        name: "Jewelery",
+        Icon: FruitsSvg,
+        backgroundColor: "#FFECE8",
+    },
+    {
+        id: "men's clothing",
+        name: "Men's",
+        Icon: EggsSvg,
+        backgroundColor: "#FFF6E4",
+    },
+    {
+        id: "women's clothing",
+        name: "Women's",
+        Icon: SteakSvg,
+        backgroundColor: "#F1EDFC",
+    },
 ];
 
 interface AllCategoriesProps {
@@ -38,6 +56,7 @@ const AllCategories: React.FC<AllCategoriesProps> = ({ isExpanded }) => {
                         Icon={item.Icon}
                         backgroundColor={item.backgroundColor}
                         name={item.name}
+                        categoryId={item.id}
                     />
                 )}
             />

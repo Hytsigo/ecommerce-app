@@ -14,7 +14,9 @@ const ProductIconComponent: React.FC<Welcome> = ({
     return (
         <View style={styles.productContainer}>
             <Image source={{ uri: image }} style={styles.productImage} />
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.title}>
+                {title.length > 20 ? `${title.substring(0, 20)}...` : title}
+            </Text>
             <Text style={styles.category}>{category}</Text>
             <Text style={styles.price}>
                 COL: ${price.toLocaleString("es-CO")}
@@ -33,6 +35,7 @@ export default ProductIconComponent;
 const styles = StyleSheet.create({
     productContainer: {
         width: 160,
+        height: 260,
         padding: 12,
         margin: 8,
         alignItems: "center",

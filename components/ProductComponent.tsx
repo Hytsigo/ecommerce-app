@@ -1,62 +1,99 @@
 import { Colors } from "@/constants/globalStyles";
 import { Welcome } from "@/interfaces/productInterfaces";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export const ProductComponent: React.FC<{ product: Welcome }> = ({
     product,
 }) => (
-    <View style={styles.productContainer}>
-        <Image source={{ uri: product.image }} style={styles.image} />
-        <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.category}>{product.category}</Text>
-        <Text style={styles.price}>${product.price}</Text>
-        <Text style={styles.rating}>Rating: {product.rating.rate}</Text>
-    </View>
+    <Link
+        href={{
+            pathname: `/detail/[id]`,
+            params: { id: product.id },
+        }}
+        asChild
+    >
+        <TouchableOpacity>
+            <View style={styles.productContainer}>
+                <Image
+                    source={{ uri: product.image }}
+                    style={styles.productImage}
+                />
+                <Text style={styles.title}>
+                    {product.title.length > 20
+                        ? `${product.title.substring(0, 20)}...`
+                        : product.title}
+                </Text>
+                <Text style={styles.category}>{product.category}</Text>
+                <Text style={styles.price}>
+                    COL: ${product.price.toLocaleString("es-CO")}
+                </Text>
+                <View style={styles.ratingContainer}>
+                    <Ionicons name="star" color="gold" size={16} />
+                    <Text style={styles.ratingText}>{product.rating.rate}</Text>
+                    <Text style={styles.reviewsText}>
+                        {product.rating.count} Reviews
+                    </Text>
+                </View>
+            </View>
+        </TouchableOpacity>
+    </Link>
 );
 
 const styles = StyleSheet.create({
     productContainer: {
-        margin: 10,
-        backgroundColor: Colors.secondaryOffGrey,
-        borderRadius: 10,
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        alignItems: "center",
-        shadowColor: Colors.primaryNavyBlack,
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
         width: 160,
+        padding: 12,
+        margin: 8,
+        alignItems: "center",
+        backgroundColor: Colors.secondarySoftGrey,
+        borderRadius: 12,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 3.84,
+        elevation: 3,
     },
-    image: {
-        width: 80,
-        height: 80,
+    productImage: {
+        width: 120,
+        height: 120,
         borderRadius: 8,
+        marginBottom: 8,
     },
     title: {
         fontSize: 14,
         fontWeight: "bold",
-        color: Colors.primaryNavyBlack,
         textAlign: "center",
-        marginVertical: 5,
+        color: Colors.primaryNavyBlack,
+        marginBottom: 4,
     },
     category: {
         fontSize: 12,
         color: Colors.secondaryHalfGrey,
-        textAlign: "center",
-        marginBottom: 5,
+        marginBottom: 6,
     },
     price: {
         fontSize: 14,
-        fontWeight: "bold",
+        fontWeight: "500",
         color: Colors.primaryBlueOcean,
-        textAlign: "center",
+        marginBottom: 8,
     },
-    rating: {
+    ratingContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 4,
+    },
+    ratingText: {
+        fontSize: 14,
+        color: Colors.primaryNavyBlack,
+        fontWeight: "600",
+        marginLeft: 4,
+    },
+    reviewsText: {
         fontSize: 12,
         color: Colors.secondaryHalfGrey,
-        textAlign: "center",
+        marginLeft: 4,
     },
 });
